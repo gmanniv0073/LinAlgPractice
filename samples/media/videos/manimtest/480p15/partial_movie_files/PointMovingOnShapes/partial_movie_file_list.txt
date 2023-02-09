@@ -1,0 +1,6 @@
+# This file is used internally by FFMPEG.
+file 'file:C:/Users/gmann/OneDrive/Desktop/LinAlgPractice/project/media/videos/manimtest/480p15/partial_movie_files/PointMovingOnShapes/4266129954_2471312405_105324400.mp4'
+file 'file:C:/Users/gmann/OneDrive/Desktop/LinAlgPractice/project/media/videos/manimtest/480p15/partial_movie_files/PointMovingOnShapes/1442284246_3574166500_2758866461.mp4'
+file 'file:C:/Users/gmann/OneDrive/Desktop/LinAlgPractice/project/media/videos/manimtest/480p15/partial_movie_files/PointMovingOnShapes/1442284246_3027675647_1246660410.mp4'
+file 'file:C:/Users/gmann/OneDrive/Desktop/LinAlgPractice/project/media/videos/manimtest/480p15/partial_movie_files/PointMovingOnShapes/1442284246_2043578813_2758866461.mp4'
+file 'file:C:/Users/gmann/OneDrive/Desktop/LinAlgPractice/project/media/videos/manimtest/480p15/partial_movie_files/PointMovingOnShapes/1442284246_329969645_3258139795.mp4'
