@@ -571,7 +571,7 @@ class ThreeDLightSourcePosition(ThreeDScene):
         self.add(axes, sphere)
 
 
- class ThreeDCameraRotation(ThreeDScene):
+class ThreeDCameraRotation(ThreeDScene):
     def construct(self):
         axes = ThreeDAxes()
         circle=Circle()
