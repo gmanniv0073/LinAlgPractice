@@ -1,0 +1,5 @@
+# .gitignore to ignore the media directory
+
+media/
+_pycache_/
+
