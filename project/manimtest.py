@@ -19,5 +19,5 @@ class CreateCircle(Scene):
         circle.set_fill(PINK, opacity=0.5)  # set the color and transparency
         self.play(Create(circle))  # show the circle on screen
 
-# manim -pql scene.py CreateCircle
+# manim -pql manimtest.py CreateCircle
 # should show a pink circle on your default mp4 player.
