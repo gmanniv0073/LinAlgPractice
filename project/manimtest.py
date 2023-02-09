@@ -28,6 +28,8 @@ class CreateCircle(Scene):
 # -n < number > to skip ahead to the n'th animation of a scene.
 # -f show the file in the file browser.
 
+# More examples copied from https://docs.manim.community/en/stable/examples.html below:
+
 
 class ManimCELogo(Scene):
     def construct(self):
@@ -134,3 +136,292 @@ class PointMovingOnShapes(Scene):
         self.play(MoveAlongPath(dot, circle), run_time=2, rate_func=linear)
         self.play(Rotating(dot, about_point=[2, 0, 0]), run_time=1.5)
         self.wait()
+
+
+class MovingAround(Scene):
+    def construct(self):
+        square = Square(color=BLUE, fill_opacity=1)
+
+        self.play(square.animate.shift(LEFT))
+        self.play(square.animate.set_fill(ORANGE))
+        self.play(square.animate.scale(0.3))
+        self.play(square.animate.rotate(0.4))
+
+
+class MovingAngle(Scene):
+    def construct(self):
+        rotation_center = LEFT
+
+        theta_tracker = ValueTracker(110)
+        line1 = Line(LEFT, RIGHT)
+        line_moving = Line(LEFT, RIGHT)
+        line_ref = line_moving.copy()
+        line_moving.rotate(
+            theta_tracker.get_value() * DEGREES, about_point=rotation_center
+        )
+        a = Angle(line1, line_moving, radius=0.5, other_angle=False)
+        tex = MathTex(r"\theta").move_to(
+            Angle(
+                line1, line_moving, radius=0.5 + 3 * SMALL_BUFF, other_angle=False
+            ).point_from_proportion(0.5)
+        )
+
+        self.add(line1, line_moving, a, tex)
+        self.wait()
+
+        line_moving.add_updater(
+            lambda x: x.become(line_ref.copy()).rotate(
+                theta_tracker.get_value() * DEGREES, about_point=rotation_center
+            )
+        )
+
+        a.add_updater(
+            lambda x: x.become(
+                Angle(line1, line_moving, radius=0.5, other_angle=False))
+        )
+        tex.add_updater(
+            lambda x: x.move_to(
+                Angle(
+                    line1, line_moving, radius=0.5 + 3 * SMALL_BUFF, other_angle=False
+                ).point_from_proportion(0.5)
+            )
+        )
+
+        self.play(theta_tracker.animate.set_value(40))
+        self.play(theta_tracker.animate.increment_value(140))
+        self.play(tex.animate.set_color(RED), run_time=0.5)
+        self.play(theta_tracker.animate.set_value(350))
+
+
+class MovingDots(Scene):
+    def construct(self):
+        d1, d2 = Dot(color=BLUE), Dot(color=GREEN)
+        dg = VGroup(d1, d2).arrange(RIGHT, buff=1)
+        l1 = Line(d1.get_center(), d2.get_center()).set_color(RED)
+        x = ValueTracker(0)
+        y = ValueTracker(0)
+        d1.add_updater(lambda z: z.set_x(x.get_value()))
+        d2.add_updater(lambda z: z.set_y(y.get_value()))
+        l1.add_updater(lambda z: z.become(
+            Line(d1.get_center(), d2.get_center())))
+        self.add(d1, d2, l1)
+        self.play(x.animate.set_value(5))
+        self.play(y.animate.set_value(4))
+        self.wait()
+
+
+class MovingGroupToDestination(Scene):
+    def construct(self):
+        group = VGroup(Dot(LEFT), Dot(ORIGIN), Dot(
+            RIGHT, color=RED), Dot(2 * RIGHT)).scale(1.4)
+        dest = Dot([4, 3, 0], color=YELLOW)
+        self.add(group, dest)
+        self.play(group.animate.shift(
+            dest.get_center() - group[2].get_center()))
+        self.wait(0.5)
+
+
+class MovingFrameBox(Scene):
+    def construct(self):
+        text = MathTex(
+            "\\frac{d}{dx}f(x)g(x)=", "f(x)\\frac{d}{dx}g(x)", "+",
+            "g(x)\\frac{d}{dx}f(x)"
+        )
+        self.play(Write(text))
+        framebox1 = SurroundingRectangle(text[1], buff=.1)
+        framebox2 = SurroundingRectangle(text[3], buff=.1)
+        self.play(
+            Create(framebox1),
+        )
+        self.wait()
+        self.play(
+            ReplacementTransform(framebox1, framebox2),
+        )
+        self.wait()
+
+
+class RotationUpdater(Scene):
+    def construct(self):
+        def updater_forth(mobj, dt):
+            mobj.rotate_about_origin(dt)
+
+        def updater_back(mobj, dt):
+            mobj.rotate_about_origin(-dt)
+        line_reference = Line(ORIGIN, LEFT).set_color(WHITE)
+        line_moving = Line(ORIGIN, LEFT).set_color(YELLOW)
+        line_moving.add_updater(updater_forth)
+        self.add(line_reference, line_moving)
+        self.wait(2)
+        line_moving.remove_updater(updater_forth)
+        line_moving.add_updater(updater_back)
+        self.wait(2)
+        line_moving.remove_updater(updater_back)
+        self.wait(0.5)
+
+
+class PointWithTrace(Scene):
+    def construct(self):
+        path = VMobject()
+        dot = Dot()
+        path.set_points_as_corners([dot.get_center(), dot.get_center()])
+
+        def update_path(path):
+            previous_path = path.copy()
+            previous_path.add_points_as_corners([dot.get_center()])
+            path.become(previous_path)
+        path.add_updater(update_path)
+        self.add(path, dot)
+        self.play(Rotating(dot, radians=PI, about_point=RIGHT, run_time=2))
+        self.wait()
+        self.play(dot.animate.shift(UP))
+        self.play(dot.animate.shift(LEFT))
+        self.wait()
+
+
+class SinAndCosFunctionPlot(Scene):
+    def construct(self):
+        axes = Axes(
+            x_range=[-10, 10.3, 1],
+            y_range=[-1.5, 1.5, 1],
+            x_length=10,
+            axis_config={"color": GREEN},
+            x_axis_config={
+                "numbers_to_include": np.arange(-10, 10.01, 2),
+                "numbers_with_elongated_ticks": np.arange(-10, 10.01, 2),
+            },
+            tips=False,
+        )
+        axes_labels = axes.get_axis_labels()
+        sin_graph = axes.plot(lambda x: np.sin(x), color=BLUE)
+        cos_graph = axes.plot(lambda x: np.cos(x), color=RED)
+
+        sin_label = axes.get_graph_label(
+            sin_graph, "\\sin(x)", x_val=-10, direction=UP / 2
+        )
+        cos_label = axes.get_graph_label(cos_graph, label="\\cos(x)")
+
+        vert_line = axes.get_vertical_line(
+            axes.i2gp(TAU, cos_graph), color=YELLOW, line_func=Line
+        )
+        line_label = axes.get_graph_label(
+            cos_graph, "x=2\pi", x_val=TAU, direction=UR, color=WHITE
+        )
+
+        plot = VGroup(axes, sin_graph, cos_graph, vert_line)
+        labels = VGroup(axes_labels, sin_label, cos_label, line_label)
+        self.add(plot, labels)
+
+
+class ArgMinExample(Scene):
+    def construct(self):
+        ax = Axes(
+            x_range=[0, 10], y_range=[0, 100, 10], axis_config={"include_tip": False}
+        )
+        labels = ax.get_axis_labels(x_label="x", y_label="f(x)")
+
+        t = ValueTracker(0)
+
+        def func(x):
+            return 2 * (x - 5) ** 2
+        graph = ax.plot(func, color=MAROON)
+
+        initial_point = [ax.coords_to_point(
+            t.get_value(), func(t.get_value()))]
+        dot = Dot(point=initial_point)
+
+        dot.add_updater(lambda x: x.move_to(
+            ax.c2p(t.get_value(), func(t.get_value()))))
+        x_space = np.linspace(*ax.x_range[:2], 200)
+        minimum_index = func(x_space).argmin()
+
+        self.add(ax, labels, graph, dot)
+        self.play(t.animate.set_value(x_space[minimum_index]))
+        self.wait()
+
+
+class GraphAreaPlot(Scene):
+    def construct(self):
+        ax = Axes(
+            x_range=[0, 5],
+            y_range=[0, 6],
+            x_axis_config={"numbers_to_include": [2, 3]},
+            tips=False,
+        )
+
+        labels = ax.get_axis_labels()
+
+        curve_1 = ax.plot(lambda x: 4 * x - x ** 2,
+                          x_range=[0, 4], color=BLUE_C)
+        curve_2 = ax.plot(
+            lambda x: 0.8 * x ** 2 - 3 * x + 4,
+            x_range=[0, 4],
+            color=GREEN_B,
+        )
+
+        line_1 = ax.get_vertical_line(
+            ax.input_to_graph_point(2, curve_1), color=YELLOW)
+        line_2 = ax.get_vertical_line(ax.i2gp(3, curve_1), color=YELLOW)
+
+        riemann_area = ax.get_riemann_rectangles(
+            curve_1, x_range=[0.3, 0.6], dx=0.03, color=BLUE, fill_opacity=0.5)
+        area = ax.get_area(
+            curve_2, [2, 3], bounded_graph=curve_1, color=GREY, opacity=0.5)
+
+        self.add(ax, labels, curve_1, curve_2,
+                 line_1, line_2, riemann_area, area)
+
+
+class PolygonOnAxes(Scene):
+    def get_rectangle_corners(self, bottom_left, top_right):
+        return [
+            (top_right[0], top_right[1]),
+            (bottom_left[0], top_right[1]),
+            (bottom_left[0], bottom_left[1]),
+            (top_right[0], bottom_left[1]),
+        ]
+
+    def construct(self):
+        ax = Axes(
+            x_range=[0, 10],
+            y_range=[0, 10],
+            x_length=6,
+            y_length=6,
+            axis_config={"include_tip": False},
+        )
+
+        t = ValueTracker(5)
+        k = 25
+
+        graph = ax.plot(
+            lambda x: k / x,
+            color=YELLOW_D,
+            x_range=[k / 10, 10.0, 0.01],
+            use_smoothing=False,
+        )
+
+        def get_rectangle():
+            polygon = Polygon(
+                *[
+                    ax.c2p(*i)
+                    for i in self.get_rectangle_corners(
+                        (0, 0), (t.get_value(), k / t.get_value())
+                    )
+                ]
+            )
+            polygon.stroke_width = 1
+            polygon.set_fill(BLUE, opacity=0.5)
+            polygon.set_stroke(YELLOW_B)
+            return polygon
+
+        polygon = always_redraw(get_rectangle)
+
+        dot = Dot()
+        dot.add_updater(lambda x: x.move_to(
+            ax.c2p(t.get_value(), k / t.get_value())))
+        dot.set_z_index(10)
+
+        self.add(ax, graph, dot)
+        self.play(Create(polygon))
+        self.play(t.animate.set_value(10))
+        self.play(t.animate.set_value(k / 10))
+        self.play(t.animate.set_value(5))
