@@ -65,19 +65,19 @@ class gridandarrow(Scene):
         
         self.play(Write(title))
 
-        self.play(grid.animate.shift(UP * 2))
+        self.play(grid.animate.shift(UP * 2), Write(title))
         
-        self.play(grid.animate.shift(LEFT * 2))
+        self.play(grid.animate.shift(LEFT * 2), Write(title))
 
-        self.play(grid.animate.shift(DOWN * 2))
+        self.play(grid.animate.shift(DOWN * 2), Write(title))
 
-        self.play(grid.animate.shift(RIGHT * 2))
+        self.play(grid.animate.shift(RIGHT * 2), Write(title))
 
-        self.play(arrow.animate.rotate(PI/2))
+        self.play(arrow.animate.rotate(PI/2), Write(title))
 
-        self.play(arrow.animate.rotate(PI/2))
+        self.play(arrow.animate.rotate(PI/2), Write(title))
 
         transform = Transform(title, arrow)
-        self.play(transform)
+        self.play(transform, Write(title))
         
         self.wait(1)
