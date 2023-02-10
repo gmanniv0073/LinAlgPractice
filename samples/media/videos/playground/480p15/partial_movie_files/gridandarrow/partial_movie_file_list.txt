@@ -1,0 +1,10 @@
+# This file is used internally by FFMPEG.
+file 'file:C:/Users/gmann/OneDrive/Desktop/LinAlgPractice/samples/media/videos/playground/480p15/partial_movie_files/gridandarrow/4266129954_654792544_3910124773.mp4'
+file 'file:C:/Users/gmann/OneDrive/Desktop/LinAlgPractice/samples/media/videos/playground/480p15/partial_movie_files/gridandarrow/1442284246_2935817697_1582529850.mp4'
+file 'file:C:/Users/gmann/OneDrive/Desktop/LinAlgPractice/samples/media/videos/playground/480p15/partial_movie_files/gridandarrow/1442284246_1491513960_1582529850.mp4'
+file 'file:C:/Users/gmann/OneDrive/Desktop/LinAlgPractice/samples/media/videos/playground/480p15/partial_movie_files/gridandarrow/1442284246_340122050_1582529850.mp4'
+file 'file:C:/Users/gmann/OneDrive/Desktop/LinAlgPractice/samples/media/videos/playground/480p15/partial_movie_files/gridandarrow/1442284246_313322224_1582529850.mp4'
+file 'file:C:/Users/gmann/OneDrive/Desktop/LinAlgPractice/samples/media/videos/playground/480p15/partial_movie_files/gridandarrow/1442284246_3799994931_387305819.mp4'
+file 'file:C:/Users/gmann/OneDrive/Desktop/LinAlgPractice/samples/media/videos/playground/480p15/partial_movie_files/gridandarrow/1442284246_3641274266_387305819.mp4'
+file 'file:C:/Users/gmann/OneDrive/Desktop/LinAlgPractice/samples/media/videos/playground/480p15/partial_movie_files/gridandarrow/1442284246_1503803275_387305819.mp4'
+file 'file:C:/Users/gmann/OneDrive/Desktop/LinAlgPractice/samples/media/videos/playground/480p15/partial_movie_files/gridandarrow/1442284246_1076466279_1023663428.mp4'
