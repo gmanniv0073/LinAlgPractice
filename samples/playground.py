@@ -82,7 +82,7 @@ class gridandarrow(Scene):
         
         self.wait(1)
 
-class numberplane(Scene):
+class numberplane():
     def construct(self):
         plane = NumberPlane()
         self.add(plane)
