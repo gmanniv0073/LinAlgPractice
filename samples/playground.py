@@ -81,3 +81,12 @@ class gridandarrow(Scene):
         self.play(transform, Write(title))
         
         self.wait(1)
+
+class numberplane(Scene):
+    def construct(self):
+        plane = NumberPlane()
+        self.add(plane)
+
+        title = Text("Number Plane")
+        title.scale(2)
+        self.play(Write(title))
